@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Admin | Assign Reviewers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #1a1a2e; color: #fff; position: fixed; left: 0; top: 0; bottom: 0; overflow-y: auto; }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-item span { display: none; }
+        .logo-area { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #D4AF37, #F5B81B); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon i { font-size: 20px; color: #1a1a2e; }
+        .logo-text { font-weight: 700; font-size: 18px; color: #FFE0A3; }
+        .nav-menu { padding: 20px 0; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 20px; margin: 4px 12px; border-radius: 12px; color: rgba(255,255,255,0.7); cursor: pointer; }
+        .nav-item.active { background: rgba(212,175,55,0.2); color: #FFE0A3; border-left: 3px solid #D4AF37; }
+        .collapse-btn { margin: 20px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+        .main-content { flex: 1; margin-left: 280px; padding: 28px 32px; }
+        .top-header { background: white; padding: 16px 24px; border-radius: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        table { width: 100%; background: white; border-radius: 20px; border-collapse: collapse; overflow: hidden; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #1a1a2e; color: white; }
+        select { padding: 8px 12px; border-radius: 8px; border: 1px solid #e5e7eb; margin-right: 10px; }
+        .btn-assign { background: linear-gradient(135deg, #D4AF37, #F5B81B); border: none; padding: 6px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        .btn-view { background: none; border: 1px solid #D4AF37; color: #D4AF37; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-right: 6px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 20px; padding: 32px; max-width: 500px; width: 90%; }
+        .detail-row { display: flex; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+        .detail-label { width: 40%; font-weight: 600; }
+        .close-modal { background: #D4AF37; border: none; padding: 10px 20px; border-radius: 30px; margin-top: 20px; cursor: pointer; width: 100%; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); position: fixed; } .main-content { margin-left: 0; } }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area"><div class="logo-icon"><i class="fas fa-user-shield"></i></div><span class="logo-text">GSU Admin</span></div>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="location.href='admin.html'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="nav-item" onclick="location.href='admin-scholarships.html'"><i class="fas fa-book-open"></i><span>Manage Scholarships</span></div>
+            <div class="nav-item" onclick="location.href='admin-users.html'"><i class="fas fa-users"></i><span>Manage Users</span></div>
+            <div class="nav-item" onclick="location.href='admin-applications.html'"><i class="fas fa-file-alt"></i><span>Applications</span></div>
+            <div class="nav-item active" onclick="location.href='admin-reviewers.html'"><i class="fas fa-chalkboard-teacher"></i><span>Assign Reviewers</span></div>
+            <div class="nav-item" onclick="location.href='admin-reports.html'"><i class="fas fa-chart-line"></i><span>Reports</span></div>
+            <div class="nav-item" onclick="location.href='admin-settings.html'"><i class="fas fa-cog"></i><span>Settings</span></div>
+            <div class="nav-item" onclick="location.href='disbursement.html'"><i class="fas fa-money-bill-wave"></i><span>Disbursement Track</span></div>
+            <div class="nav-item" onclick="location.href='awards.html'"><i class="fas fa-trophy"></i><span>Award Manager</span></div>
+            <div class="nav-item" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+        </div>
+        <div class="collapse-btn" id="collapseBtn"><i class="fas fa-chevron-left"></i><span>Collapse Menu</span></div>
+    </div>
+    <div class="main-content" id="mainContent">
+        <div class="top-header"><h2>👨‍🏫 Assign Applications to Reviewers</h2><button class="btn-assign" onclick="alert('Auto-assign all pending applications')">Auto Assign All</button></div>
+        <table>
+            <thead><tr><th>Scholarship</th><th>Applications</th><th>Current Reviewer</th><th>Assign New Reviewer</th><th>Actions</th></tr></thead>
+            <tbody>
+                <tr><td>Merit Excellence Scholarship</td><td>12</td><td>Dr. Amina Ibrahim</td><td><select id="reviewer1"><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option><option>Dr. Fatima Ahmed</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(1)">View Applications</button></td></tr>
+                <tr><td>STEM Leaders Bursary</td><td>8</td><td>Prof. Yusuf Suleiman</td><td><select id="reviewer2"><option>Prof. Yusuf Suleiman</option><option>Dr. Amina Ibrahim</option><option>Dr. Fatima Ahmed</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(2)">View Applications</button></td></tr>
+                <tr><td>Women in STEM Scholarship</td><td>6</td><td>Dr. Fatima Ahmed</td><td><select id="reviewer3"><option>Dr. Fatima Ahmed</option><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(3)">View Applications</button></td></tr>
+                <tr><td>Community Service Award</td><td>10</td><td>Unassigned</td><td><select id="reviewer4"><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option><option>Dr. Fatima Ahmed</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(4)">View Applications</button></td></tr>
+                <tr><td>Research Innovation Grant</td><td>5</td><td>Dr. Amina Ibrahim</td><td><select id="reviewer5"><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option><option>Dr. Fatima Ahmed</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(5)">View Applications</button></td></tr>
+                <tr><td>Presidential Bursary</td><td>15</td><td>Unassigned</td><td><select id="reviewer6"><option>Dr. Fatima Ahmed</option><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(6)">View Applications</button></td></tr>
+                <tr><td>Sports Excellence Award</td><td>4</td><td>Prof. Yusuf Suleiman</td><td><select id="reviewer7"><option>Prof. Yusuf Suleiman</option><option>Dr. Amina Ibrahim</option><option>Dr. Fatima Ahmed</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(7)">View Applications</button></td></tr>
+                <tr><td>Art & Culture Grant</td><td>3</td><td>Dr. Fatima Ahmed</td><td><select id="reviewer8"><option>Dr. Fatima Ahmed</option><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(8)">View Applications</button></td></tr>
+                <tr><td>Medical Students Bursary</td><td>7</td><td>Unassigned</td><td><select id="reviewer9"><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option><option>Dr. Fatima Ahmed</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(9)">View Applications</button></td></tr>
+                <tr><td>Law Excellence Scholarship</td><td>5</td><td>Dr. Amina Ibrahim</td><td><select id="reviewer10"><option>Dr. Amina Ibrahim</option><option>Prof. Yusuf Suleiman</option><option>Dr. Fatima Ahmed</option></select></td><td><button class="btn-assign" onclick="alert('Assigned to selected reviewer')">Assign Now</button><button class="btn-view" onclick="viewApplications(10)">View Applications</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="appListModal" class="modal"><div class="modal-content"><h3>📋 Pending Applications</h3><div id="appListDetails"></div><button class="close-modal" onclick="closeModal()">Close</button></div></div>
+<script>
+    const applicationsData = { 1: ["Maryam Abubakar", "Ibrahim Musa", "Fatima Sani", "Usman Bello", "Amina Yahaya", "Sadiq Mohammed", "Zainab Abdullahi", "Haruna Adamu", "Rukayya Umar", "Abdullahi Idris", "Hauwa Musa", "Musa Bello"], 2: ["Khadija Suleiman", "Abubakar Tukur", "Ramatu Yusuf", "Nasir Ahmed", "Aisha Mohammed", "Bashir Abdullahi", "Halima Abubakar", "Ibrahim Sani"], 3: ["Fatima Bello", "Suleiman Musa", "Rahma Idris", "Yusuf Adamu", "Amina Bello", "Umar Faruk"], 4: ["Hassan Suleiman", "Maryam Abubakar", "Ibrahim Musa", "Fatima Sani", "Usman Bello", "Amina Yahaya", "Sadiq Mohammed", "Zainab Abdullahi", "Haruna Adamu", "Rukayya Umar"], 5: ["Abdullahi Idris", "Hauwa Musa", "Musa Bello", "Khadija Suleiman", "Abubakar Tukur"], 6: ["Ramatu Yusuf", "Nasir Ahmed", "Aisha Mohammed", "Bashir Abdullahi", "Halima Abubakar", "Ibrahim Sani", "Fatima Bello", "Suleiman Musa", "Rahma Idris", "Yusuf Adamu", "Amina Bello", "Umar Faruk", "Hassan Suleiman", "Maryam Abubakar", "Ibrahim Musa"], 7: ["Fatima Sani", "Usman Bello", "Amina Yahaya", "Sadiq Mohammed"], 8: ["Zainab Abdullahi", "Haruna Adamu", "Rukayya Umar"], 9: ["Abdullahi Idris", "Hauwa Musa", "Musa Bello", "Khadija Suleiman", "Abubakar Tukur", "Ramatu Yusuf", "Nasir Ahmed"], 10: ["Aisha Mohammed", "Bashir Abdullahi", "Halima Abubakar", "Ibrahim Sani", "Fatima Bello"] };
+    function viewApplications(id) { const apps = applicationsData[id]; let html = `<div class="detail-row"><div class="detail-label">Total Applications:</div><div>${apps.length}</div></div>`; apps.forEach((app, index) => { html += `<div class="detail-row"><div class="detail-label">${index+1}.</div><div>${app}</div></div>`; }); document.getElementById('appListDetails').innerHTML = html; document.getElementById('appListModal').classList.add('active'); }
+    function closeModal() { document.getElementById('appListModal').classList.remove('active'); }
+    const s=document.getElementById('sidebar'),m=document.getElementById('mainContent'); document.getElementById('collapseBtn').addEventListener('click',()=>{ s.classList.toggle('collapsed'); m.classList.toggle('expanded'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Scholarship Portal | Apply for Scholarship</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; overflow-x: hidden; }
+        
+        .dashboard-container { display: flex; min-height: 100vh; }
+        
+        .sidebar {
+            width: 280px;
+            background: #1a1a2e;
+            color: #fff;
+            transition: all 0.3s ease;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-item span { display: none; }
+        
+        .logo-area {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #D4AF37, #F5B81B);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-icon i { font-size: 20px; color: #1a1a2e; }
+        .logo-text { font-weight: 700; font-size: 18px; background: linear-gradient(135deg, #FFE4A0, #F5B81B); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        
+        .nav-menu { flex: 1; padding: 20px 0; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+        }
+        .nav-item.active { background: linear-gradient(95deg, rgba(212,175,55,0.2), rgba(245,184,27,0.1)); color: #FFE0A3; border-left: 3px solid #D4AF37; }
+        .nav-item:hover { background: rgba(255,255,255,0.08); }
+        
+        .collapse-btn {
+            margin: 20px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: all 0.3s ease;
+        }
+        .main-content.expanded { margin-left: 80px; }
+        
+        .top-header {
+            background: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #D4AF37, #F5B81B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .app-content { padding: 28px 32px; }
+        
+        .scholarship-header {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .scholarship-title { font-size: 28px; font-weight: 700; color: #1f2937; }
+        .eligibility-box { background: #e0e7ff; border-left: 4px solid #4f46e5; padding: 16px; border-radius: 12px; margin-top: 16px; }
+        
+        .progress-steps {
+            display: flex;
+            background: white;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .step.active .step-number { background: #D4AF37; color: #1a1a2e; }
+        .step.completed .step-number { background: #10b981; color: white; }
+        
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+        }
+        .form-step { display: none; animation: slideIn 0.3s ease; }
+        .form-step.active-step { display: block; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group.full-width { grid-column: span 2; }
+        
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #374151; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .review-card {
+            background: #f9fafb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px; }
+        .edit-btn { background: none; border: none; color: #D4AF37; cursor: pointer; }
+        
+        .form-actions { display: flex; justify-content: space-between; margin-top: 32px; padding-top: 24px; border-top: 1px solid #e5e7eb; }
+        .btn-primary {
+            background: linear-gradient(135deg, #D4AF37, #F5B81B);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-secondary { background: #f3f4f6; border: none; padding: 12px 28px; border-radius: 40px; cursor: pointer; }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .modal.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); position: fixed; z-index: 200; }
+            .main-content { margin-left: 0; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .progress-steps { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area"><div class="logo-icon"><i class="fas fa-graduation-cap"></i></div><span class="logo-text">GSU Scholarship</span></div>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="location.href='dashbord.html'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="nav-item active" onclick="location.href='apply.html'"><i class="fas fa-book-open"></i><span>Available Scholarships</span></div>
+            <div class="nav-item" onclick="location.href='appstatus.html'"><i class="fas fa-file-alt"></i><span>My Applications</span></div>
+            <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-cog"></i><span>Profile Settings</span></div>
+            <div class="nav-item" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+        </div>
+        <div class="collapse-btn" id="collapseBtn"><i class="fas fa-chevron-left"></i><span>Collapse</span></div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="top-header">
+            <div class="breadcrumb">Dashboard / Available Scholarships / Apply: Merit Excellence Scholarship</div>
+            <div class="user-avatar" id="userAvatar" onclick="location.href='profile.html'">GU</div>
+        </div>
+
+        <div class="app-content">
+            <div class="scholarship-header">
+                <h1 class="scholarship-title">Merit Excellence Scholarship 2025</h1>
+                <div><strong>Provider:</strong> Ministry of Education | <strong>Amount:</strong> ₦500,000 | <strong>Deadline:</strong> December 15, 2025</div>
+                <div class="eligibility-box"><i class="fas fa-info-circle"></i> <strong>Eligibility:</strong> Minimum GPA 3.5, Any major, Open to 2nd-4th year students</div>
+            </div>
+
+            <div class="progress-steps" id="progressSteps">
+                <div class="step active" data-step="1"><div class="step-number">1</div><div>Personal Info</div></div>
+                <div class="step" data-step="2"><div class="step-number">2</div><div>Academic & Financial</div></div>
+                <div class="step" data-step="3"><div class="step-number">3</div><div>Documents</div></div>
+                <div class="step" data-step="4"><div class="step-number">4</div><div>Review & Submit</div></div>
+            </div>
+
+            <div class="form-container">
+                <form id="applicationForm">
+                    <!-- STEP 1 - PERSONAL INFORMATION (All fields optional for demo) -->
+                    <div class="form-step active-step" id="step1">
+                        <div class="form-row">
+                            <div class="form-group"><label>Full Name</label><input type="text" id="fullName" placeholder="Enter your full name"></div>
+                            <div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="youremail@gsu.edu.ng"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Phone Number</label><input type="tel" id="phone" placeholder="+234 XXX XXX XXXX"></div>
+                            <div class="form-group"><label>Date of Birth</label><input type="date" id="dob"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Department</label><select id="dept"><option value="">Select Department</option><option>Computer Science</option><option>Engineering</option><option>Business Administration</option><option>Medicine</option><option>Law</option><option>Arts & Humanities</option><option>Sciences</option><option>Education</option></select></div>
+                            <div class="form-group"><label>Student ID</label><input type="text" id="studentId" placeholder="GSU/XXX/XXXX/XXX"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Current GPA</label><input type="number" step="0.01" id="gpa" placeholder="0.00 - 5.00" min="0" max="5"></div>
+                            <div class="form-group"><label>Year of Study</label><select id="yearOfStudy"><option value="">Select</option><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option></select></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Nationality</label><select id="nationality"><option value="">Select</option><option>Nigerian</option><option>Other</option></select></div>
+                            <div class="form-group"><label>Financial Status</label><select id="financialStatus"><option value="">Select</option><option>Low Income</option><option>Middle Income</option><option>High Income</option></select></div>
+                        </div>
+                        <div class="form-group full-width"><label>Current Address</label><textarea id="address" rows="2" placeholder="Enter your current residential address"></textarea></div>
+                    </div>
+
+                    <!-- STEP 2 - ACADEMIC & FINANCIAL DETAILS -->
+                    <div class="form-step" id="step2">
+                        <div class="form-row">
+                            <div class="form-group"><label>Current GPA</label><input type="number" step="0.01" id="gpa2" placeholder="0.00 - 5.00" min="0" max="5"></div>
+                            <div class="form-group"><label>Previous Semester GPA</label><input type="number" step="0.01" id="prevGpa"></div>
+                        </div>
+                        <div class="form-group"><label>Academic Achievements & Awards</label><textarea id="achievements" rows="3" placeholder="List any academic awards, honors, or recognitions..."></textarea></div>
+                        <div class="form-group"><label>Extracurricular Activities & Leadership</label><textarea id="activities" rows="3" placeholder="Clubs, sports, volunteer work, leadership roles..."></textarea></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Financial Status</label><select id="financialStatus2"><option value="">Select</option><option>Low Income</option><option>Middle Income</option><option>High Income</option></select></div>
+                            <div class="form-group"><label>Annual Family Income (USD)</label><input type="number" id="familyIncome" placeholder="Enter amount"></div>
+                        </div>
+                        <div class="form-group"><label>Reason for Applying</label><textarea id="reason" rows="4" placeholder="Explain why you deserve this scholarship..."></textarea></div>
+                        <div class="checkbox-group"><input type="checkbox" id="declaration"><label>I confirm that all information provided is accurate and complete.</label></div>
+                    </div>
+
+                    <!-- STEP 3 - DOCUMENTS -->
+                    <div class="form-step" id="step3">
+                        <div class="upload-zone" data-field="transcript"><i class="fas fa-cloud-upload-alt fa-2x"></i><div>Academic Transcript (PDF, max 5MB)</div></div>
+                        <div class="upload-zone" data-field="letter"><i class="fas fa-cloud-upload-alt fa-2x"></i><div>Recommendation Letter (PDF, max 5MB)</div></div>
+                        <div class="upload-zone" data-field="financial"><i class="fas fa-cloud-upload-alt fa-2x"></i><div>Financial Proof/Statement (PDF/Image, max 5MB)</div></div>
+                        <div class="upload-zone" data-field="id"><i class="fas fa-cloud-upload-alt fa-2x"></i><div>ID Document (PDF/Image, max 5MB)</div></div>
+                    </div>
+
+                    <!-- STEP 4 - REVIEW -->
+                    <div class="form-step" id="step4"><div id="reviewContent"></div><div class="checkbox-group"><input type="checkbox" id="termsCheckbox"><label>I agree to the terms and conditions and confirm that all uploaded documents are authentic.</label></div></div>
+
+                    <div class="form-actions"><button type="button" class="btn-secondary" id="prevBtn" style="display:none;">← Previous</button><button type="button" class="btn-primary" id="nextBtn">Next →</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="successModal"><div class="modal-content"><div style="font-size: 48px;">✅</div><h3>Application Submitted!</h3><p>Your scholarship application has been successfully submitted.</p><button class="btn-primary" id="modalCloseBtn">Continue to Dashboard</button></div></div>
+
+<script>
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    document.getElementById('collapseBtn').addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
+    });
+    
+    let currentStep = 1;
+    const totalSteps = 4;
+    const stepDivs = document.querySelectorAll('.form-step');
+    const steps = document.querySelectorAll('.step');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    
+    function updateStepDisplay() {
+        stepDivs.forEach((div, idx) => div.classList.toggle('active-step', idx + 1 === currentStep));
+        steps.forEach((step, idx) => {
+            step.classList.toggle('active', idx + 1 === currentStep);
+            step.classList.toggle('completed', idx + 1 < currentStep);
+            if (idx + 1 < currentStep) step.querySelector('.step-number').innerHTML = '<i class="fas fa-check"></i>';
+            else if (idx + 1 === currentStep) step.querySelector('.step-number').innerHTML = idx + 1;
+            else step.querySelector('.step-number').innerHTML = idx + 1;
+        });
+        prevBtn.style.display = currentStep === 1 ? 'none' : 'inline-flex';
+        nextBtn.innerHTML = currentStep === totalSteps ? 'Submit Application' : 'Next →';
+    }
+    
+    function buildReview() {
+        const reviewHtml = `
+            <div class="review-card"><div class="review-header"><strong>Personal Information</strong><button class="edit-btn" data-step="1">Edit</button></div>
+            <p>Name: ${document.getElementById('fullName').value || 'Not provided'}<br>Email: ${document.getElementById('email').value || 'Not provided'}<br>Department: ${document.getElementById('dept').value || 'Not provided'}</p></div>
+            <div class="review-card"><div class="review-header"><strong>Academic & Financial</strong><button class="edit-btn" data-step="2">Edit</button></div>
+            <p>GPA: ${document.getElementById('gpa').value || 'Not provided'}<br>Reason: ${(document.getElementById('reason').value || '').substring(0, 100)}</p></div>
+            <div class="review-card"><div class="review-header"><strong>Documents</strong><button class="edit-btn" data-step="3">Edit</button></div>
+            <p>Documents will be uploaded.</p></div>`;
+        document.getElementById('reviewContent').innerHTML = reviewHtml;
+        document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => { currentStep = parseInt(btn.dataset.step); updateStepDisplay(); }));
+    }
+    
+    nextBtn.addEventListener('click', () => {
+        if (currentStep === totalSteps) {
+            document.getElementById('successModal').classList.add('active');
+        } else {
+            currentStep++;
+            updateStepDisplay();
+            if (currentStep === totalSteps) buildReview();
+        }
+    });
+    
+    prevBtn.addEventListener('click', () => { if (currentStep > 1) { currentStep--; updateStepDisplay(); } });
+    
+    document.getElementById('modalCloseBtn').addEventListener('click', () => {
+        document.getElementById('successModal').classList.remove('active');
+        window.location.href = 'dashboard.html';
+    });
+    
+    document.querySelectorAll('.upload-zone').forEach(zone => {
+        zone.addEventListener('click', () => alert('📄 File upload simulation: Document added successfully!'));
+    });
+    
+    updateStepDisplay();
+</script>
+</body>
+</html>

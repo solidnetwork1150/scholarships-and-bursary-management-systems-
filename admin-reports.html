@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Admin | Reports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #1a1a2e; color: #fff; position: fixed; left: 0; top: 0; bottom: 0; overflow-y: auto; }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-item span { display: none; }
+        .logo-area { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #D4AF37, #F5B81B); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .nav-menu { padding: 20px 0; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 20px; margin: 4px 12px; border-radius: 12px; color: rgba(255,255,255,0.7); cursor: pointer; }
+        .nav-item.active { background: rgba(212,175,55,0.2); color: #FFE0A3; border-left: 3px solid #D4AF37; }
+        .collapse-btn { margin: 20px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer; }
+        .main-content { flex: 1; margin-left: 280px; padding: 28px 32px; }
+        .top-header { background: white; padding: 16px 24px; border-radius: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .report-card { background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .btn-export { background: linear-gradient(135deg, #D4AF37, #F5B81B); border: none; padding: 10px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; }
+        .btn-view-details { background: none; border: 1px solid #D4AF37; color: #D4AF37; padding: 10px 24px; border-radius: 30px; cursor: pointer; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); position: fixed; } .main-content { margin-left: 0; } }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area"><div class="logo-icon"><i class="fas fa-user-shield"></i></div><span class="logo-text">GSU Admin</span></div>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="location.href='admin.html'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="nav-item" onclick="location.href='admin-scholarships.html'"><i class="fas fa-book-open"></i><span>Manage Scholarships</span></div>
+            <div class="nav-item" onclick="location.href='admin-users.html'"><i class="fas fa-users"></i><span>Manage Users</span></div>
+            <div class="nav-item" onclick="location.href='admin-applications.html'"><i class="fas fa-file-alt"></i><span>Applications</span></div>
+            <div class="nav-item" onclick="location.href='admin-reviewers.html'"><i class="fas fa-chalkboard-teacher"></i><span>Assign Reviewers</span></div>
+            <div class="nav-item active" onclick="location.href='admin-reports.html'"><i class="fas fa-chart-line"></i><span>Reports</span></div>
+            <div class="nav-item" onclick="location.href='admin-settings.html'"><i class="fas fa-cog"></i><span>Settings</span></div>
+            <div class="nav-item" onclick="location.href='disbursement.html'"><i class="fas fa-money-bill-wave"></i><span>Disbursement Track</span></div>
+            <div class="nav-item" onclick="location.href='awards.html'"><i class="fas fa-trophy"></i><span>Award Manager</span></div>
+            <div class="nav-item" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+        </div>
+        <div class="collapse-btn" id="collapseBtn"><i class="fas fa-chevron-left"></i><span>Collapse Menu</span></div>
+    </div>
+    <div class="main-content" id="mainContent">
+        <div class="top-header"><h2>📊 Generate Reports</h2><button class="btn-export" onclick="alert('Schedule automatic reports')">Schedule Reports</button></div>
+        <div class="report-card"><div><strong>📋 Applications Summary Report</strong><br>Total Applications: 847 | Approved: 156 | Pending: 312 | Rejected: 89 | Under Review: 290</div><div><button class="btn-export" onclick="alert('Exporting Applications Report as PDF')">Export PDF</button><button class="btn-view-details" onclick="alert('View detailed applications report')">View Details</button></div></div>
+        <div class="report-card"><div><strong>💰 Financial Report</strong><br>Total Budget: ₦167,800,000 | Total Disbursed: ₦125,500,000 | Remaining: ₦42,300,000 | Monthly Avg: ₦10,458,333</div><div><button class="btn-export" onclick="alert('Exporting Financial Report as PDF')">Export PDF</button><button class="btn-view-details" onclick="alert('View detailed financial report')">View Details</button></div></div>
+        <div class="report-card"><div><strong>👥 User Activity Report</strong><br>Active Students: 847 | Active Reviewers: 5 | Administrators: 2 | Finance Officers: 1 | New Registrations (Oct): 156</div><div><button class="btn-export" onclick="alert('Exporting User Report as PDF')">Export PDF</button><button class="btn-view-details" onclick="alert('View detailed user activity report')">View Details</button></div></div>
+        <div class="report-card"><div><strong>🎓 Scholarship Performance Report</strong><br>Most Applied: Merit Excellence (234 apps) | Highest Awarded: STEM Leaders (45 awards) | Least Applied: Art & Culture (12 apps)</div><div><button class="btn-export" onclick="alert('Exporting Scholarship Report as PDF')">Export PDF</button><button class="btn-view-details" onclick="alert('View detailed scholarship report')">View Details</button></div></div>
+        <div class="report-card"><div><strong>🏆 Award Distribution by Department</strong><br>Computer Science: 45 awards | Engineering: 38 awards | Medicine: 25 awards | Law: 18 awards | Business: 22 awards</div><div><button class="btn-export" onclick="alert('Exporting Award Distribution Report as PDF')">Export PDF</button><button class="btn-view-details" onclick="alert('View detailed award distribution')">View Details</button></div></div>
+        <div class="report-card"><div><strong>⏰ Deadline Compliance Report</strong><br>On-time Submissions: 78% | Late Submissions: 15% | Withdrawn: 7% | Average Processing Time: 12 days</div><div><button class="btn-export" onclick="alert('Exporting Deadline Report as PDF')">Export PDF</button><button class="btn-view-details" onclick="alert('View detailed deadline report')">View Details</button></div></div>
+    </div>
+</div>
+<script> const s=document.getElementById('sidebar'),m=document.getElementById('mainContent'); document.getElementById('collapseBtn').addEventListener('click',()=>{ s.classList.toggle('collapsed'); m.classList.toggle('expanded'); }); </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+GSU-Scholarship-Portal/
+│
+├── index.html              (Landing Page - First page users see)
+├── register.html           (Student Registration)
+├── login.html              (Student Login)
+├── dashboard.html          (Main Student Dashboard - AFTER login)
+├── apply.html              (Multi-step Application Form)
+├── status.html             (Application Status Page)
+├── awards.html             (Award Management)
+├── profile.html            (Profile Management)
+├── forgot.html             (Forgot Password)
+├── notifications.html      (Notification Center)
+├── admin.html              (Admin Dashboard)
+├── reviewer.html           (Reviewer Dashboard)
+├── disbursement.html       (Disbursement Tracking)
+│
+└── assets/                 (Optional - for images)
+    └── images/
+        └── gsu-logo.png     (Your university logo)

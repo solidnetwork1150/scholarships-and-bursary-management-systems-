@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Admin | Manage Scholarships</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #1a1a2e; color: #fff; position: fixed; left: 0; top: 0; bottom: 0; overflow-y: auto; }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-item span { display: none; }
+        .logo-area { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #D4AF37, #F5B81B); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon i { font-size: 20px; color: #1a1a2e; }
+        .logo-text { font-weight: 700; font-size: 18px; color: #FFE0A3; }
+        .nav-menu { padding: 20px 0; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 20px; margin: 4px 12px; border-radius: 12px; color: rgba(255,255,255,0.7); cursor: pointer; }
+        .nav-item.active { background: rgba(212,175,55,0.2); color: #FFE0A3; border-left: 3px solid #D4AF37; }
+        .collapse-btn { margin: 20px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+        .main-content { flex: 1; margin-left: 280px; padding: 28px 32px; }
+        .top-header { background: white; padding: 16px 24px; border-radius: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .btn-add { background: linear-gradient(135deg, #D4AF37, #F5B81B); border: none; padding: 10px 24px; border-radius: 30px; font-weight: 600; cursor: pointer; }
+        table { width: 100%; background: white; border-radius: 20px; border-collapse: collapse; overflow: hidden; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #1a1a2e; color: white; }
+        .btn-view-details { background: none; border: 1px solid #D4AF37; color: #D4AF37; padding: 6px 12px; border-radius: 8px; margin-right: 6px; cursor: pointer; font-size: 12px; }
+        .btn-edit { background: none; border: 1px solid #3b82f6; color: #3b82f6; padding: 6px 12px; border-radius: 8px; margin-right: 6px; cursor: pointer; font-size: 12px; }
+        .btn-delete { background: none; border: 1px solid #ef4444; color: #ef4444; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 20px; padding: 32px; max-width: 500px; width: 90%; }
+        .modal-content h3 { margin-bottom: 20px; color: #1a1a2e; }
+        .detail-row { display: flex; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+        .detail-label { width: 40%; font-weight: 600; }
+        .close-modal { background: #D4AF37; border: none; padding: 10px 20px; border-radius: 30px; margin-top: 20px; cursor: pointer; width: 100%; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); position: fixed; } .main-content { margin-left: 0; } }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area"><div class="logo-icon"><i class="fas fa-user-shield"></i></div><span class="logo-text">GSU Admin</span></div>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="location.href='admin.html'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="nav-item active" onclick="location.href='admin-scholarships.html'"><i class="fas fa-book-open"></i><span>Manage Scholarships</span></div>
+            <div class="nav-item" onclick="location.href='admin-users.html'"><i class="fas fa-users"></i><span>Manage Users</span></div>
+            <div class="nav-item" onclick="location.href='admin-applications.html'"><i class="fas fa-file-alt"></i><span>Applications</span></div>
+            <div class="nav-item" onclick="location.href='admin-reviewers.html'"><i class="fas fa-chalkboard-teacher"></i><span>Assign Reviewers</span></div>
+            <div class="nav-item" onclick="location.href='admin-reports.html'"><i class="fas fa-chart-line"></i><span>Reports</span></div>
+            <div class="nav-item" onclick="location.href='admin-settings.html'"><i class="fas fa-cog"></i><span>Settings</span></div>
+            <div class="nav-item" onclick="location.href='disbursement.html'"><i class="fas fa-money-bill-wave"></i><span>Disbursement Track</span></div>
+            <div class="nav-item" onclick="location.href='awards.html'"><i class="fas fa-trophy"></i><span>Award Manager</span></div>
+            <div class="nav-item" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+        </div>
+        <div class="collapse-btn" id="collapseBtn"><i class="fas fa-chevron-left"></i><span>Collapse Menu</span></div>
+    </div>
+    <div class="main-content" id="mainContent">
+        <div class="top-header"><h2>📚 Manage Scholarships</h2><button class="btn-add" onclick="alert('Open form to add new scholarship')">+ Add New Scholarship</button></div>
+        <table>
+            <thead><tr><th>Title</th><th>Provider</th><th>Amount</th><th>Deadline</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+                <tr><td>Merit Excellence Scholarship</td><td>Ministry of Education</td><td>₦500,000</td><td>Dec 15, 2025</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(1)">View Details</button><button class="btn-edit" onclick="alert('Edit Merit Excellence Scholarship')">Edit</button><button class="btn-delete" onclick="alert('Delete Merit Excellence Scholarship?')">Delete</button></td></tr>
+                <tr><td>STEM Leaders Bursary</td><td>Tech Foundation</td><td>₦350,000</td><td>Nov 30, 2025</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(2)">View Details</button><button class="btn-edit" onclick="alert('Edit STEM Leaders Bursary')">Edit</button><button class="btn-delete" onclick="alert('Delete STEM Leaders Bursary?')">Delete</button></td></tr>
+                <tr><td>Women in STEM Scholarship</td><td>Global Tech Initiative</td><td>₦450,000</td><td>Jan 10, 2026</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(3)">View Details</button><button class="btn-edit" onclick="alert('Edit Women in STEM Scholarship')">Edit</button><button class="btn-delete" onclick="alert('Delete Women in STEM Scholarship?')">Delete</button></td></tr>
+                <tr><td>Community Service Award</td><td>GSU Alumni Association</td><td>₦200,000</td><td>Dec 30, 2025</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(4)">View Details</button><button class="btn-edit" onclick="alert('Edit Community Service Award')">Edit</button><button class="btn-delete" onclick="alert('Delete Community Service Award?')">Delete</button></td></tr>
+                <tr><td>Research Innovation Grant</td><td>University Research Board</td><td>₦750,000</td><td>Oct 25, 2025</td><td>Closing Soon</td><td><button class="btn-view-details" onclick="viewScholarship(5)">View Details</button><button class="btn-edit" onclick="alert('Edit Research Innovation Grant')">Edit</button><button class="btn-delete" onclick="alert('Delete Research Innovation Grant?')">Delete</button></td></tr>
+                <tr><td>Presidential Bursary</td><td>VC's Office</td><td>₦300,000</td><td>Feb 15, 2026</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(6)">View Details</button><button class="btn-edit" onclick="alert('Edit Presidential Bursary')">Edit</button><button class="btn-delete" onclick="alert('Delete Presidential Bursary?')">Delete</button></td></tr>
+                <tr><td>Sports Excellence Award</td><td>Sports Council</td><td>₦250,000</td><td>Mar 1, 2026</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(7)">View Details</button><button class="btn-edit" onclick="alert('Edit Sports Excellence Award')">Edit</button><button class="btn-delete" onclick="alert('Delete Sports Excellence Award?')">Delete</button></td></tr>
+                <tr><td>Art & Culture Grant</td><td>Ministry of Arts</td><td>₦180,000</td><td>Jan 20, 2026</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(8)">View Details</button><button class="btn-edit" onclick="alert('Edit Art & Culture Grant')">Edit</button><button class="btn-delete" onclick="alert('Delete Art & Culture Grant?')">Delete</button></td></tr>
+                <tr><td>Medical Students Bursary</td><td>Health Foundation</td><td>₦400,000</td><td>Nov 15, 2025</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(9)">View Details</button><button class="btn-edit" onclick="alert('Edit Medical Students Bursary')">Edit</button><button class="btn-delete" onclick="alert('Delete Medical Students Bursary?')">Delete</button></td></tr>
+                <tr><td>Law Excellence Scholarship</td><td>Law Faculty</td><td>₦350,000</td><td>Dec 10, 2025</td><td>Active</td><td><button class="btn-view-details" onclick="viewScholarship(10)">View Details</button><button class="btn-edit" onclick="alert('Edit Law Excellence Scholarship')">Edit</button><button class="btn-delete" onclick="alert('Delete Law Excellence Scholarship?')">Delete</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="scholarshipModal" class="modal"><div class="modal-content"><h3>📜 Scholarship Details</h3><div id="scholarshipDetails"></div><button class="close-modal" onclick="closeModal()">Close</button></div></div>
+<script>
+    const scholarships = { 1: { title: "Merit Excellence Scholarship", provider: "Ministry of Education", amount: "₦500,000", deadline: "December 15, 2025", eligibility: "GPA 3.5+, Any Major, 2nd-4th Year", description: "For students with outstanding academic records and leadership qualities.", totalFund: "₦5,000,000", awarded: "10 students" }, 2: { title: "STEM Leaders Bursary", provider: "Tech Foundation", amount: "₦350,000", deadline: "November 30, 2025", eligibility: "STEM Majors, GPA 3.0+, Financial Need", description: "Supporting students in Science, Technology, Engineering, and Mathematics.", totalFund: "₦3,500,000", awarded: "10 students" }, 3: { title: "Women in STEM Scholarship", provider: "Global Tech Initiative", amount: "₦450,000", deadline: "January 10, 2026", eligibility: "Female Students, STEM Majors, GPA 3.2+", description: "Empowering women in male-dominated STEM fields.", totalFund: "₦2,700,000", awarded: "6 students" }, 4: { title: "Community Service Award", provider: "GSU Alumni Association", amount: "₦200,000", deadline: "December 30, 2025", eligibility: "Any Major, Volunteer Experience, GPA 2.8+", description: "Recognizing students with exceptional community service.", totalFund: "₦2,000,000", awarded: "10 students" }, 5: { title: "Research Innovation Grant", provider: "University Research Board", amount: "₦750,000", deadline: "October 25, 2025", eligibility: "Research Proposal, GPA 3.3+, Final Year", description: "Funding innovative research projects by students.", totalFund: "₦3,750,000", awarded: "5 students" }, 6: { title: "Presidential Bursary", provider: "VC's Office", amount: "₦300,000", deadline: "February 15, 2026", eligibility: "Financial Need, All Departments, GPA 2.5+", description: "Supporting students facing financial hardship.", totalFund: "₦6,000,000", awarded: "20 students" }, 7: { title: "Sports Excellence Award", provider: "Sports Council", amount: "₦250,000", deadline: "March 1, 2026", eligibility: "Sports Achievement, Represented University", description: "For student athletes who excel in sports.", totalFund: "₦1,250,000", awarded: "5 students" }, 8: { title: "Art & Culture Grant", provider: "Ministry of Arts", amount: "₦180,000", deadline: "January 20, 2026", eligibility: "Arts/Humanities Majors, Portfolio Required", description: "Supporting creative and artistic talents.", totalFund: "₦900,000", awarded: "5 students" }, 9: { title: "Medical Students Bursary", provider: "Health Foundation", amount: "₦400,000", deadline: "November 15, 2025", eligibility: "Medical Students, Financial Need, GPA 3.0+", description: "Supporting future medical professionals.", totalFund: "₦4,000,000", awarded: "10 students" }, 10: { title: "Law Excellence Scholarship", provider: "Law Faculty", amount: "₦350,000", deadline: "December 10, 2025", eligibility: "Law Students, GPA 3.4+, Moot Court Experience", description: "For outstanding law students.", totalFund: "₦1,750,000", awarded: "5 students" } };
+    function viewScholarship(id) { const s = scholarships[id]; document.getElementById('scholarshipDetails').innerHTML = `<div class="detail-row"><div class="detail-label">Title:</div><div>${s.title}</div></div><div class="detail-row"><div class="detail-label">Provider:</div><div>${s.provider}</div></div><div class="detail-row"><div class="detail-label">Amount:</div><div>${s.amount}</div></div><div class="detail-row"><div class="detail-label">Deadline:</div><div>${s.deadline}</div></div><div class="detail-row"><div class="detail-label">Eligibility:</div><div>${s.eligibility}</div></div><div class="detail-row"><div class="detail-label">Description:</div><div>${s.description}</div></div><div class="detail-row"><div class="detail-label">Total Fund:</div><div>${s.totalFund}</div></div><div class="detail-row"><div class="detail-label">Awarded To:</div><div>${s.awarded}</div></div>`; document.getElementById('scholarshipModal').classList.add('active'); }
+    function closeModal() { document.getElementById('scholarshipModal').classList.remove('active'); }
+    const s=document.getElementById('sidebar'),m=document.getElementById('mainContent'); document.getElementById('collapseBtn').addEventListener('click',()=>{ s.classList.toggle('collapsed'); m.classList.toggle('expanded'); });
+</script>
+</body>
+</html>

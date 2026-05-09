@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Admin | Disbursement Tracking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #1a1a2e; color: #fff; position: fixed; left: 0; top: 0; bottom: 0; overflow-y: auto; }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-item span { display: none; }
+        .logo-area { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #D4AF37, #F5B81B); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .nav-menu { padding: 20px 0; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 20px; margin: 4px 12px; border-radius: 12px; color: rgba(255,255,255,0.7); cursor: pointer; }
+        .nav-item.active { background: rgba(212,175,55,0.2); color: #FFE0A3; border-left: 3px solid #D4AF37; }
+        .collapse-btn { margin: 20px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer; }
+        .main-content { flex: 1; margin-left: 280px; padding: 28px 32px; }
+        .top-header { background: white; padding: 16px 24px; border-radius: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
+        .stat-card { background: white; border-radius: 16px; padding: 20px; text-align: center; }
+        .stat-number { font-size: 28px; font-weight: 800; color: #D4AF37; }
+        table { width: 100%; background: white; border-radius: 20px; border-collapse: collapse; overflow: hidden; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #1a1a2e; color: white; }
+        .status-paid { color: #10b981; font-weight: 600; }
+        .status-pending { color: #f59e0b; font-weight: 600; }
+        .btn-process { background: linear-gradient(135deg, #D4AF37, #F5B81B); border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; margin-right: 6px; font-size: 12px; }
+        .btn-receipt { background: none; border: 1px solid #3b82f6; color: #3b82f6; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); position: fixed; } .main-content { margin-left: 0; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area"><div class="logo-icon"><i class="fas fa-user-shield"></i></div><span class="logo-text">GSU Admin</span></div>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="location.href='admin.html'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="nav-item" onclick="location.href='admin-scholarships.html'"><i class="fas fa-book-open"></i><span>Manage Scholarships</span></div>
+            <div class="nav-item" onclick="location.href='admin-users.html'"><i class="fas fa-users"></i><span>Manage Users</span></div>
+            <div class="nav-item" onclick="location.href='admin-applications.html'"><i class="fas fa-file-alt"></i><span>Applications</span></div>
+            <div class="nav-item" onclick="location.href='admin-reviewers.html'"><i class="fas fa-chalkboard-teacher"></i><span>Assign Reviewers</span></div>
+            <div class="nav-item" onclick="location.href='admin-reports.html'"><i class="fas fa-chart-line"></i><span>Reports</span></div>
+            <div class="nav-item" onclick="location.href='admin-settings.html'"><i class="fas fa-cog"></i><span>Settings</span></div>
+            <div class="nav-item active" onclick="location.href='disbursement.html'"><i class="fas fa-money-bill-wave"></i><span>Disbursement Track</span></div>
+            <div class="nav-item" onclick="location.href='awards.html'"><i class="fas fa-trophy"></i><span>Award Manager</span></div>
+            <div class="nav-item" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+        </div>
+        <div class="collapse-btn" id="collapseBtn"><i class="fas fa-chevron-left"></i><span>Collapse Menu</span></div>
+    </div>
+    <div class="main-content" id="mainContent">
+        <div class="top-header"><h2>💰 Disbursement Tracking</h2><button class="btn-process" onclick="alert('Process bulk disbursements')">Bulk Process</button></div>
+        <div class="stats-grid"><div class="stat-card"><div class="stat-number">₦125.5M</div><div>Total Disbursed</div></div><div class="stat-card"><div class="stat-number">₦42.3M</div><div>Pending</div></div><div class="stat-card"><div class="stat-number">347</div><div>Students Paid</div></div><div class="stat-card"><div class="stat-number">₦167.8M</div><div>Total Budget</div></div></div>
+        <table>
+            <thead><tr><th>Student</th><th>Scholarship</th><th>Amount</th><th>Disbursement Date</th><th>Transaction ID</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+                <tr><td>Maryam Abubakar</td><td>Merit Excellence</td><td>₦500,000</td><td>Oct 20, 2025</td><td>TRX-GSU-001234</td><td class="status-paid">✓ Paid</td><td><button class="btn-receipt" onclick="alert('View receipt for Maryam Abubakar')">View Receipt</button></td></tr>
+                <tr><td>Ibrahim Musa</td><td>STEM Leaders</td><td>₦350,000</td><td>Pending</td><td>N/A</td><td class="status-pending">⏳ Pending</td><td><button class="btn-process" onclick="alert('Process payment for Ibrahim Musa')">Process Payment</button><button class="btn-receipt" onclick="alert('Cannot generate receipt yet')">View Receipt</button></td></tr>
+                <tr><td>Fatima Sani</td><td>Women in STEM</td><td>₦450,000</td><td>Oct 18, 2025</td><td>TRX-GSU-001245</td><td class="status-paid">✓ Paid</td><td><button class="btn-receipt" onclick="alert('View receipt for Fatima Sani')">View Receipt</button></td></tr>
+                <tr><td>Usman Bello</td><td>Research Grant</td><td>₦750,000</td><td>Pending</td><td>N/A</td><td class="status-pending">⏳ Pending</td><td><button class="btn-process" onclick="alert('Process payment for Usman Bello')">Process Payment</button></td></tr>
+                <tr><td>Amina Yahaya</td><td>Community Service</td><td>₦200,000</td><td>Oct 15, 2025</td><td>TRX-GSU-001256</td><td class="status-paid">✓ Paid</td><td><button class="btn-receipt" onclick="alert('View receipt for Amina Yahaya')">View Receipt</button></td></tr>
+                <tr><td>Sadiq Mohammed</td><td>Merit Excellence</td><td>₦500,000</td><td>Pending</td><td>N/A</td><td class="status-pending">⏳ Pending</td><td><button class="btn-process" onclick="alert('Process payment for Sadiq Mohammed')">Process Payment</button></td></tr>
+                <tr><td>Zainab Abdullahi</td><td>STEM Leaders</td><td>₦350,000</td><td>Oct 12, 2025</td><td>TRX-GSU-001267</td><td class="status-paid">✓ Paid</td><td><button class="btn-receipt" onclick="alert('View receipt for Zainab Abdullahi')">View Receipt</button></td></tr>
+                <tr><td>Haruna Adamu</td><td>Women in STEM</td><td>₦450,000</td><td>Pending</td><td>N/A</td><td class="status-pending">⏳ Pending</td><td><button class="btn-process" onclick="alert('Process payment for Haruna Adamu')">Process Payment</button></td></tr>
+                <tr><td>Rukayya Umar</td><td>Research Grant</td><td>₦750,000</td><td>Oct 8, 2025</td><td>TRX-GSU-001278</td><td class="status-paid">✓ Paid</td><td><button class="btn-receipt" onclick="alert('View receipt for Rukayya Umar')">View Receipt</button></td></tr>
+                <tr><td>Abdullahi Idris</td><td>Community Service</td><td>₦200,000</td><td>Pending</td><td>N/A</td><td class="status-pending">⏳ Pending</td><td><button class="btn-process" onclick="alert('Process payment for Abdullahi Idris')">Process Payment</button></td></tr>
+                <tr><td>Hauwa Musa</td><td>Presidential Bursary</td><td>₦300,000</td><td>Oct 5, 2025</td><td>TRX-GSU-001289</td><td class="status-paid">✓ Paid</td><td><button class="btn-receipt" onclick="alert('View receipt for Hauwa Musa')">View Receipt</button></td></tr>
+                <tr><td>Musa Bello</td><td>STEM Leaders</td><td>₦350,000</td><td>Pending</td><td>N/A</td><td class="status-pending">⏳ Pending</td><td><button class="btn-process" onclick="alert('Process payment for Musa Bello')">Process Payment</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script> const s=document.getElementById('sidebar'),m=document.getElementById('mainContent'); document.getElementById('collapseBtn').addEventListener('click',()=>{ s.classList.toggle('collapsed'); m.classList.toggle('expanded'); }); </script>
+</body>
+</html>

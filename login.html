@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Scholarship Portal | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            background: linear-gradient(145deg, #0a1a3a 0%, #1a2a55 35%, #3a3a6a 65%, #c9a03d 100%);
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cGF0aCBkPSJNMjAgMjBhMjAgMjAgMCAwIDEgMjAgMjAgMjAgMjAgMCAwIDEtMjAgMjAgMjAgMjAgMCAwIDEtMjAtMjAgMjAgMjAgMCAwIDEgMjAtMjB6IiBmaWxsPSJyZ2JhKDIxMiwgMTc1LCA1NSwgMC4wMykiLz48L3N2Zz4=');
+            background-repeat: repeat;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .login-card {
+            background: rgba(15, 25, 55, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 175, 55, 0.15);
+            padding: 2.5rem;
+            transform-style: preserve-3d;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .graduation-cap {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.08));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(212, 175, 55, 0.6);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .graduation-cap svg {
+            width: 52px;
+            height: 52px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .login-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #FFFFFF, #FFE4A0, #F5B81B);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .subtext {
+            color: rgba(255, 255, 230, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1.8rem;
+            text-align: center;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(212, 175, 55, 0.7);
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            background: rgba(0, 15, 45, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 1rem;
+            padding: 0.85rem 1rem 0.85rem 2.8rem;
+            font-size: 0.95rem;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #FFD966;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.35);
+        }
+
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 3rem;
+        }
+
+        .toggle-pw {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 220, 100, 0.7);
+            cursor: pointer;
+            z-index: 2;
+            font-size: 1rem;
+        }
+
+        .toggle-pw:hover {
+            color: #FFD966;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 230, 0.8);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #D4AF37;
+        }
+
+        .forgot-link {
+            color: #FFD966;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .forgot-link:hover {
+            color: #F5B81B;
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(105deg, #D4AF37, #F5B81B, #C99E2E);
+            border: none;
+            padding: 1rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #0a1a3a;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(212, 175, 55, 0.55);
+        }
+
+        .btn-primary.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(10, 26, 58, 0.3);
+            border-top-color: #0a1a3a;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: rgba(255, 255, 230, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .register-link a {
+            color: #FFD966;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .security-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            color: rgba(255, 255, 230, 0.5);
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .error-message {
+            color: #FFB4A2;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .animate-field {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.4s forwards;
+        }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+        .role-student { background: #10b981; color: white; }
+        .role-admin { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="login-card" id="loginCard">
+        
+        <div class="logo-container" id="logoContainer">
+            <div class="graduation-cap">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 15 L15 38 L50 55 L85 38 L50 15Z" fill="url(#goldGrad)" stroke="#C99E2E" stroke-width="1.2"/>
+                    <defs>
+                        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFE4A0"/>
+                            <stop offset="50%" style="stop-color:#D4AF37"/>
+                            <stop offset="100%" style="stop-color:#B8912E"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M50 55 L50 75 Q55 78 58 72" stroke="#FFD966" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <circle cx="59" cy="71" r="3" fill="#FFD966"/>
+                    <circle cx="56" cy="68" r="1.5" fill="#FFE4A0"/>
+                    <circle cx="50" cy="30" r="4" fill="#C99E2E" stroke="#B8912E" stroke-width="1"/>
+                    <path d="M35 32 L42 28" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <h2>Welcome Back</h2>
+        <p class="subtext">Sign in to your scholarship portal</p>
+
+        <form id="loginForm">
+            <div class="input-group animate-field" style="animation-delay: 0.1s;">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email Address" required>
+            </div>
+
+            <div class="input-group animate-field" style="animation-delay: 0.2s;">
+                <i class="fas fa-lock"></i>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button type="button" class="toggle-pw" id="togglePassword">
+                        <i class="far fa-eye-slash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-group animate-field" style="animation-delay: 0.25s;">
+                <i class="fas fa-user-tag"></i>
+                <select id="role">
+                    <option value="student">🎓 Login as Student</option>
+                    <option value="admin">⚙️ Login as Administrator</option>
+                </select>
+            </div>
+
+            <div class="form-options animate-field" style="animation-delay: 0.3s;">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="rememberMe"> Remember me
+                </label>
+                <a href="forgot.html" id="forgotPassword" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn-primary animate-field" id="signInBtn" style="animation-delay: 0.4s;">
+                <span>Sign In</span>
+            </button>
+        </form>
+
+        <div class="register-link animate-field" style="animation-delay: 0.5s;">
+            Don't have an account? <a href="register.html">Create Account</a>
+        </div>
+
+        <div class="security-footer animate-field" style="animation-delay: 0.6s;">
+            <i class="fas fa-shield-alt"></i> Secured by 256-bit encryption
+        </div>
+
+        <div id="errorMsg" class="error-message"></div>
+    </div>
+</div>
+
+<script>
+    // GSAP Animations
+    const card = document.getElementById('loginCard');
+    const logoContainer = document.getElementById('logoContainer');
+
+    if (card) {
+        gsap.set(card, { transformPerspective: 1000, rotationX: 95, opacity: 0, y: 40, transformOrigin: "center center" });
+        gsap.to(card, { duration: 0.8, rotationX: 0, opacity: 1, y: 0, ease: "back.out(0.65)" });
+    }
+
+    if (logoContainer) {
+        gsap.set(logoContainer, { y: -100, opacity: 0, scale: 0.4 });
+        gsap.to(logoContainer, { duration: 0.8, y: 0, opacity: 1, scale: 1, ease: "elastic.out(1, 0.5)", delay: 0.15 });
+    }
+
+    // Password Toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="far fa-eye-slash"></i>' : '<i class="far fa-eye"></i>';
+        });
+    }
+
+    // Form submission with role-based redirect
+    const form = document.getElementById('loginForm');
+    const signInBtn = document.getElementById('signInBtn');
+    const emailInput = document.getElementById('email');
+    const roleSelect = document.getElementById('role');
+    const errorMsgDiv = document.getElementById('errorMsg');
+
+    // Demo credentials
+    const STUDENT_EMAIL = "a@gmail.com";
+    const STUDENT_PASSWORD = "a123";
+    const ADMIN_EMAIL = "b@gmail.com";
+    const ADMIN_PASSWORD = "b123";
+
+    function showErrorShake(inputElement) {
+        inputElement.classList.add('error-shake');
+        setTimeout(() => {
+            inputElement.classList.remove('error-shake');
+        }, 500);
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        const selectedRole = roleSelect.value;
+        
+        errorMsgDiv.innerHTML = "";
+        
+        if (!email || !password) {
+            errorMsgDiv.innerHTML = "⚠️ Please enter both email and password";
+            if (!email) showErrorShake(emailInput);
+            if (!password) showErrorShake(passwordInput);
+            return;
+        }
+        
+        // Student Login Check
+        if (selectedRole === "student") {
+            if (email === STUDENT_EMAIL && password === STUDENT_PASSWORD) {
+                // Successful Student Login
+                signInBtn.classList.add('loading');
+                signInBtn.innerHTML = '<div class="spinner"></div> Signing in...';
+                
+                setTimeout(() => {
+                    signInBtn.innerHTML = '<i class="fas fa-check"></i> signing in...';
+                    setTimeout(() => {
+                        signInBtn.classList.remove('loading');
+                        signInBtn.innerHTML = '<span>Sign In</span>';
+                        window.location.href = "dashbord.html";
+                    }, 500);
+                }, 1000);
+                return;
+            } else {
+                errorMsgDiv.innerHTML = "❌ Invalid student credentials.<br><small>Demo: a@gmail.com / a123</small>";
+                showErrorShake(emailInput);
+                showErrorShake(passwordInput);
+                return;
+            }
+        }
+        
+        // Admin Login Check
+        if (selectedRole === "admin") {
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                // Successful Admin Login
+                signInBtn.classList.add('loading');
+                signInBtn.innerHTML = '<div class="spinner"></div> Signing in...';
+                
+                setTimeout(() => {
+                    signInBtn.innerHTML = '<i class="fas fa-check"></i>  Signing in...';
+                    setTimeout(() => {
+                        signInBtn.classList.remove('loading');
+                        signInBtn.innerHTML = '<span>Sign In</span>';
+                        window.location.href = "admin.html";
+                    }, 500);
+                }, 1000);
+                return;
+            } else {
+                errorMsgDiv.innerHTML = "❌ Invalid admin credentials.<br><small>Demo: b@gmail.com / b123</small>";
+                showErrorShake(emailInput);
+                showErrorShake(passwordInput);
+                return;
+            }
+        }
+    });
+
+    // Forgot Password Handler
+    const forgotLink = document.getElementById('forgotPassword');
+    if (forgotLink) {
+        forgotLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = "forgot.html";
+        });
+    }
+
+    // Remember Me checkbox functionality
+    const rememberCheckbox = document.getElementById('rememberMe');
+    if (localStorage.getItem('gsu_remembered_email')) {
+        emailInput.value = localStorage.getItem('gsu_remembered_email');
+        rememberCheckbox.checked = true;
+    }
+    
+    if (rememberCheckbox) {
+        rememberCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                localStorage.setItem('gsu_remembered_email', emailInput.value);
+            } else {
+                localStorage.removeItem('gsu_remembered_email');
+            }
+        });
+    }
+</script>
+</body>
+</html>

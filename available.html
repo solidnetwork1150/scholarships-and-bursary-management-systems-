@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Scholarship Portal | Available Scholarships</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; overflow-x: hidden; }
+        
+        .dashboard-container { display: flex; min-height: 100vh; }
+        
+        .sidebar {
+            width: 280px;
+            background: #1a1a2e;
+            color: #fff;
+            transition: all 0.3s ease;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-item span { display: none; }
+        
+        .logo-area {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #D4AF37, #F5B81B);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-icon i { font-size: 20px; color: #1a1a2e; }
+        .logo-text { font-weight: 700; font-size: 18px; background: linear-gradient(135deg, #FFE4A0, #F5B81B); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        
+        .nav-menu { flex: 1; padding: 20px 0; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+        }
+        .nav-item.active { background: linear-gradient(95deg, rgba(212,175,55,0.2), rgba(245,184,27,0.1)); color: #FFE0A3; border-left: 3px solid #D4AF37; }
+        .nav-item:hover { background: rgba(255,255,255,0.08); }
+        
+        .collapse-btn {
+            margin: 20px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: all 0.3s ease;
+        }
+        .main-content.expanded { margin-left: 80px; }
+        
+        .top-header {
+            background: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #D4AF37, #F5B81B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .content { padding: 28px 32px; }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+        }
+        
+        .scholarships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .scholarship-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .scholarship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.15);
+        }
+        
+        .scholarship-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .scholarship-provider {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        
+        .scholarship-amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 12px;
+        }
+        
+        .scholarship-deadline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-bottom: 16px;
+        }
+        
+        .scholarship-eligibility {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #4b5563;
+            margin-bottom: 16px;
+        }
+        
+        .btn-apply {
+            width: 100%;
+            background: linear-gradient(135deg, #D4AF37, #F5B81B);
+            border: none;
+            padding: 10px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-apply:hover { transform: scale(1.02); }
+        
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); position: fixed; z-index: 200; }
+            .main-content { margin-left: 0; }
+            .scholarships-grid { grid-template-columns: 1fr; }
+            .content { padding: 20px 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area"><div class="logo-icon"><i class="fas fa-graduation-cap"></i></div><span class="logo-text">GSU Scholarship</span></div>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="location.href='dashbord.html'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="nav-item active" onclick="location.href='available.html'"><i class="fas fa-book-open"></i><span>Available Scholarships</span></div>
+            <div class="nav-item" onclick="location.href='notification.html'"><i class="fas fa-bell"></i><span>Notifications</span></div>
+            <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-cog"></i><span>Profile Settings</span></div>
+            <div class="nav-item" onclick="location.href='shortlisted.html'"><i class="fas fa-trophy"></i><span>Shortlisted</span></div>
+            <div class="nav-item" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+        </div>
+        <div class="collapse-btn" id="collapseBtn"><i class="fas fa-chevron-left"></i><span>Collapse</span></div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="top-header">
+            <div>🎓 Available Scholarships</div>
+            <div class="user-avatar" onclick="location.href='profile.html'"><i class="fas fa-user"></i></div>
+        </div>
+
+        <div class="content">
+            <div class="section-title">📚 All Available Scholarships</div>
+            <div class="scholarships-grid">
+                <div class="scholarship-card">
+                    <div class="scholarship-title">Merit Excellence Scholarship</div>
+                    <div class="scholarship-provider"><i class="fas fa-building"></i> Ministry of Education</div>
+                    <div class="scholarship-amount">₦500,000</div>
+                    <div class="scholarship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: December 15, 2025</div>
+                    <div class="scholarship-eligibility"><i class="fas fa-check-circle"></i> GPA 3.5+ | Any Major | 2nd-4th Year</div>
+                    <button class="btn-apply" onclick="location.href='apply.html'">Apply Now →</button>
+                </div>
+                
+                <div class="scholarship-card">
+                    <div class="scholarship-title">STEM Leaders Bursary</div>
+                    <div class="scholarship-provider"><i class="fas fa-building"></i> Tech Foundation</div>
+                    <div class="scholarship-amount">₦350,000</div>
+                    <div class="scholarship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: November 30, 2025</div>
+                    <div class="scholarship-eligibility"><i class="fas fa-check-circle"></i> STEM Majors | GPA 3.0+ | Financial Need</div>
+                    <button class="btn-apply" onclick="location.href='apply.html'">Apply Now →</button>
+                </div>
+                
+                <div class="scholarship-card">
+                    <div class="scholarship-title">Women in STEM Scholarship</div>
+                    <div class="scholarship-provider"><i class="fas fa-building"></i> Global Tech Initiative</div>
+                    <div class="scholarship-amount">₦450,000</div>
+                    <div class="scholarship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: January 10, 2026</div>
+                    <div class="scholarship-eligibility"><i class="fas fa-check-circle"></i> Female Students | STEM Majors | GPA 3.2+</div>
+                    <button class="btn-apply" onclick="location.href='apply.html'">Apply Now →</button>
+                </div>
+                
+                <div class="scholarship-card">
+                    <div class="scholarship-title">Community Service Award</div>
+                    <div class="scholarship-provider"><i class="fas fa-building"></i> GSU Alumni Association</div>
+                    <div class="scholarship-amount">₦200,000</div>
+                    <div class="scholarship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: December 30, 2025</div>
+                    <div class="scholarship-eligibility"><i class="fas fa-check-circle"></i> Any Major | Volunteer Experience | GPA 2.8+</div>
+                    <button class="btn-apply" onclick="location.href='apply.html'">Apply Now →</button>
+                </div>
+                
+                <div class="scholarship-card">
+                    <div class="scholarship-title">Research Innovation Grant</div>
+                    <div class="scholarship-provider"><i class="fas fa-building"></i> University Research Board</div>
+                    <div class="scholarship-amount">₦750,000</div>
+                    <div class="scholarship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: October 25, 2025</div>
+                    <div class="scholarship-eligibility"><i class="fas fa-check-circle"></i> Research Proposal | GPA 3.3+ | Final Year</div>
+                    <button class="btn-apply" onclick="location.href='apply.html'">Apply Now →</button>
+                </div>
+                
+                <div class="scholarship-card">
+                    <div class="scholarship-title">Presidential Bursary</div>
+                    <div class="scholarship-provider"><i class="fas fa-building"></i> GSU Vice-Chancellor's Office</div>
+                    <div class="scholarship-amount">₦300,000</div>
+                    <div class="scholarship-deadline"><i class="fas fa-calendar-alt"></i> Deadline: February 15, 2026</div>
+                    <div class="scholarship-eligibility"><i class="fas fa-check-circle"></i> Financial Need | All Departments | GPA 2.5+</div>
+                    <button class="btn-apply" onclick="location.href='apply.html'">Apply Now →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    document.getElementById('collapseBtn').addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
+    });
+</script>
+</body>
+</html>

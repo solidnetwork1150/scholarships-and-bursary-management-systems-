@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Scholarship Portal | Application Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #001432 0%, #0a1a3a 100%); min-height: 100vh; padding: 32px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .back-link { color: #D4AF37; text-decoration: none; margin-bottom: 24px; display: inline-block; }
+        h1 { font-family: 'Playfair Display', serif; color: white; margin-bottom: 32px; }
+        .status-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border-radius: 24px; padding: 24px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.2); }
+        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+        .scholarship-name { font-size: 1.4rem; font-weight: 700; color: white; }
+        .status-badge { padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; }
+        .status-under-review { background: #f59e0b; color: white; }
+        .timeline { display: flex; justify-content: space-between; margin: 32px 0; position: relative; flex-wrap: wrap; gap: 16px; }
+        .timeline-step { text-align: center; flex: 1; position: relative; }
+        .timeline-dot { width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; }
+        .timeline-dot.completed { background: #10b981; }
+        .timeline-dot.active { background: #D4AF37; box-shadow: 0 0 0 4px rgba(212,175,55,0.3); }
+        .timeline-label { color: white; font-size: 0.85rem; font-weight: 500; }
+        .btn-back { background: linear-gradient(135deg, #D4AF37, #F5B81B); border: none; padding: 12px 32px; border-radius: 40px; font-weight: 600; cursor: pointer; margin-top: 24px; }
+        @media (max-width: 768px) { .timeline { flex-direction: column; align-items: center; } .timeline-step { width: 100%; } body { padding: 20px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="#" class="back-link" onclick="history.back()">← Back to Dashboard</a>
+    <h1>My Application Status</h1>
+    <div class="status-card">
+        <div class="status-header"><span class="scholarship-name">Merit Excellence Scholarship 2025</span><span class="status-badge status-under-review">Under Review</span></div>
+        <div class="timeline">
+            <div class="timeline-step"><div class="timeline-dot completed"><i class="fas fa-check" style="color:white; font-size:14px;"></i></div><div class="timeline-label">Submitted</div><div style="color:rgba(255,255,255,0.6); font-size:12px;">Oct 1, 2025</div></div>
+            <div class="timeline-step"><div class="timeline-dot active"><i class="fas fa-search" style="color:white; font-size:14px;"></i></div><div class="timeline-label">Under Review</div><div style="color:rgba(255,255,255,0.6); font-size:12px;">In Progress</div></div>
+            <div class="timeline-step"><div class="timeline-dot"></div><div class="timeline-label">Shortlisted</div></div>
+            <div class="timeline-step"><div class="timeline-dot"></div><div class="timeline-label">Final Decision</div></div>
+        </div>
+    </div>
+    <button class="btn-back" onclick="alert('Returning to Dashboard')">Back to Dashboard</button>
+</div>
+</body>
+</html>

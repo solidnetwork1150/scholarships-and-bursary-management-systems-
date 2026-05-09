@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Scholarship Portal | Frequently Asked Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #001432 0%, #0a1a3a 100%); min-height: 100vh; padding: 32px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: white; margin-bottom: 8px; }
+        .subtitle { color: rgba(255,255,255,0.7); }
+        .faq-item { background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border-radius: 16px; margin-bottom: 16px; overflow: hidden; border: 1px solid rgba(212,175,55,0.2); }
+        .faq-question { padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #FFE0A3; transition: 0.2s; }
+        .faq-question:hover { background: rgba(212,175,55,0.1); }
+        .faq-answer { padding: 0 24px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: rgba(255,255,255,0.8); line-height: 1.6; }
+        .faq-item.active .faq-answer { padding: 0 24px 20px 24px; max-height: 300px; }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .back-link { display: inline-block; margin-top: 40px; color: #D4AF37; text-decoration: none; text-align: center; width: 100%; }
+        hr { margin: 24px 0; border-color: rgba(255,255,255,0.1); }
+        @media (max-width: 768px) { body { padding: 20px; } .faq-question { padding: 16px; font-size: 0.9rem; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>❓ Frequently Asked Questions</h1>
+        <div class="subtitle">Everything you need to know about GSU Scholarship Portal</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>📝 Who is eligible to apply for scholarships?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">All currently enrolled students of Gombe State University are eligible to apply for scholarships and bursaries. Each scholarship has specific eligibility criteria based on academic merit, financial need, department, and level of study. Review the requirements carefully before submitting your application.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>💰 How much funding can I receive?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">Scholarship amounts range from ₦200,000 to ₦750,000 per academic year depending on the scholarship type. Merit-based scholarships typically offer higher amounts, while bursaries provide essential financial support for tuition and living expenses.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>📋 What documents do I need to upload?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">You will typically need your academic transcript, a recommendation letter from a faculty member, proof of financial status, a valid student ID, and a personal statement explaining why you deserve the scholarship. Specific requirements vary by scholarship type.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>⏰ When are the application deadlines?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">Deadlines vary by scholarship. Currently, the STEM Leaders Bursary closes November 30, 2025, Merit Excellence Scholarship closes December 15, 2025, and Community Service Award closes January 10, 2026. Check individual scholarship pages for exact dates.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>📊 How is the selection process conducted?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">Applications are evaluated based on clear, published criteria — academic merit (40%), financial need (30%), and personal achievements/essay (30%). A committee of faculty members reviews all applications, and shortlisted candidates may be invited for an interview.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>💸 When and how will I receive the funds?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">Once your application is approved, funds are disbursed directly to your registered bank account or applied to your tuition fees within 14 working days. You will receive email and SMS notifications at every stage of the disbursement process.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>🔄 Can I apply for multiple scholarships?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">Yes! You can apply for as many scholarships as you qualify for. Your profile information is saved once, making it easy to apply to multiple opportunities without re-entering your details each time.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question"><span>🔐 Is my personal information secure?</span><i class="fas fa-chevron-down faq-icon"></i></div>
+        <div class="faq-answer">Absolutely. All personal and financial information is encrypted and stored securely. GSU Scholarship Portal uses industry-standard security measures to protect your data. We never share your information with third parties without your consent.</div>
+    </div>
+
+    <hr>
+
+    <div style="text-align: center;">
+        <a href="dashboard.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.querySelector('.faq-question').addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+</script>
+</body>
+</html>

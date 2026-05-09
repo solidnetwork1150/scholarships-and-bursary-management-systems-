@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GSU Admin | Applications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #1a1a2e; color: #fff; position: fixed; left: 0; top: 0; bottom: 0; overflow-y: auto; }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-item span { display: none; }
+        .logo-area { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #D4AF37, #F5B81B); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .nav-menu { padding: 20px 0; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 20px; margin: 4px 12px; border-radius: 12px; color: rgba(255,255,255,0.7); cursor: pointer; }
+        .nav-item.active { background: rgba(212,175,55,0.2); color: #FFE0A3; border-left: 3px solid #D4AF37; }
+        .collapse-btn { margin: 20px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer; }
+        .main-content { flex: 1; margin-left: 280px; padding: 28px 32px; }
+        .top-header { background: white; padding: 16px 24px; border-radius: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+        table { width: 100%; background: white; border-radius: 20px; border-collapse: collapse; overflow: hidden; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #1a1a2e; color: white; }
+        .status-pending { background: #fed7aa; color: #9a3412; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
+        .status-review { background: #e0e7ff; color: #3730a3; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
+        .status-approved { background: #d1fae5; color: #065f46; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
+        .status-rejected { background: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
+        .btn-view-details { background: none; border: 1px solid #D4AF37; color: #D4AF37; padding: 6px 12px; border-radius: 8px; margin-right: 6px; cursor: pointer; font-size: 12px; }
+        .btn-update { background: none; border: 1px solid #3b82f6; color: #3b82f6; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 20px; padding: 32px; max-width: 500px; width: 90%; }
+        .detail-row { display: flex; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+        .detail-label { width: 40%; font-weight: 600; }
+        .close-modal { background: #D4AF37; border: none; padding: 10px 20px; border-radius: 30px; margin-top: 20px; cursor: pointer; width: 100%; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); position: fixed; } .main-content { margin-left: 0; } }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area"><div class="logo-icon"><i class="fas fa-user-shield"></i></div><span class="logo-text">GSU Admin</span></div>
+        <div class="nav-menu">
+            <div class="nav-item" onclick="location.href='admin.html'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></div>
+            <div class="nav-item" onclick="location.href='admin-scholarships.html'"><i class="fas fa-book-open"></i><span>Manage Scholarships</span></div>
+            <div class="nav-item" onclick="location.href='admin-users.html'"><i class="fas fa-users"></i><span>Manage Users</span></div>
+            <div class="nav-item active" onclick="location.href='admin-applications.html'"><i class="fas fa-file-alt"></i><span>Applications</span></div>
+            <div class="nav-item" onclick="location.href='admin-reviewers.html'"><i class="fas fa-chalkboard-teacher"></i><span>Assign Reviewers</span></div>
+            <div class="nav-item" onclick="location.href='admin-reports.html'"><i class="fas fa-chart-line"></i><span>Reports</span></div>
+            <div class="nav-item" onclick="location.href='admin-settings.html'"><i class="fas fa-cog"></i><span>Settings</span></div>
+            <div class="nav-item" onclick="location.href='disbursement.html'"><i class="fas fa-money-bill-wave"></i><span>Disbursement Track</span></div>
+            <div class="nav-item" onclick="location.href='awards.html'"><i class="fas fa-trophy"></i><span>Award Manager</span></div>
+            <div class="nav-item" onclick="location.href='login.html'"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+        </div>
+        <div class="collapse-btn" id="collapseBtn"><i class="fas fa-chevron-left"></i><span>Collapse Menu</span></div>
+    </div>
+    <div class="main-content" id="mainContent">
+        <div class="top-header"><h2>📋 Student Applications</h2></div>
+        <table>
+            <thead><tr><th>Student</th><th>Scholarship</th><th>Submitted</th><th>Status</th><th>Score</th><th>Actions</th></tr></thead>
+            <tbody>
+                <tr><td>Maryam Abubakar</td><td>Merit Excellence</td><td>Oct 15, 2025</td><td><span class="status-review">Under Review</span></td><td>87</td><td><button class="btn-view-details" onclick="viewApplication(1)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Ibrahim Musa</td><td>STEM Leaders</td><td>Oct 14, 2025</td><td><span class="status-pending">Pending</span></td><td>N/A</td><td><button class="btn-view-details" onclick="viewApplication(2)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Fatima Sani</td><td>Women in STEM</td><td>Oct 12, 2025</td><td><span class="status-approved">Approved</span></td><td>92</td><td><button class="btn-view-details" onclick="viewApplication(3)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Usman Bello</td><td>Research Grant</td><td>Oct 10, 2025</td><td><span class="status-pending">Pending</span></td><td>N/A</td><td><button class="btn-view-details" onclick="viewApplication(4)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Amina Yahaya</td><td>Community Service</td><td>Oct 8, 2025</td><td><span class="status-review">Under Review</span></td><td>78</td><td><button class="btn-view-details" onclick="viewApplication(5)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Sadiq Mohammed</td><td>Merit Excellence</td><td>Oct 5, 2025</td><td><span class="status-approved">Approved</span></td><td>89</td><td><button class="btn-view-details" onclick="viewApplication(6)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Zainab Abdullahi</td><td>STEM Leaders</td><td>Oct 3, 2025</td><td><span class="status-rejected">Rejected</span></td><td>62</td><td><button class="btn-view-details" onclick="viewApplication(7)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Haruna Adamu</td><td>Women in STEM</td><td>Oct 1, 2025</td><td><span class="status-review">Under Review</span></td><td>81</td><td><button class="btn-view-details" onclick="viewApplication(8)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Rukayya Umar</td><td>Research Grant</td><td>Sep 28, 2025</td><td><span class="status-pending">Pending</span></td><td>N/A</td><td><button class="btn-view-details" onclick="viewApplication(9)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+                <tr><td>Abdullahi Idris</td><td>Community Service</td><td>Sep 25, 2025</td><td><span class="status-approved">Approved</span></td><td>85</td><td><button class="btn-view-details" onclick="viewApplication(10)">View Details</button><button class="btn-update" onclick="alert('Update application status')">Update Status</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="appModal" class="modal"><div class="modal-content"><h3>📄 Application Details</h3><div id="appDetails"></div><button class="close-modal" onclick="closeModal()">Close</button></div></div>
+<script>
+    const apps = { 1: { student: "Maryam Abubakar", scholarship: "Merit Excellence", submitted: "Oct 15, 2025", gpa: "3.85", essay: "Outstanding academic performance and leadership in student government.", docs: "Transcript, Recommendation Letter, ID", score: "87", status: "Under Review" }, 2: { student: "Ibrahim Musa", scholarship: "STEM Leaders", submitted: "Oct 14, 2025", gpa: "3.72", essay: "Passionate about engineering and community development.", docs: "Transcript, Recommendation Letter", score: "N/A", status: "Pending" }, 3: { student: "Fatima Sani", scholarship: "Women in STEM", submitted: "Oct 12, 2025", gpa: "3.91", essay: "Leading coding workshops for girls in secondary schools.", docs: "Transcript, Recommendation Letter, ID, Financial Proof", score: "92", status: "Approved" }, 4: { student: "Usman Bello", scholarship: "Research Grant", submitted: "Oct 10, 2025", gpa: "3.88", essay: "Research on malaria prevention and treatment.", docs: "Transcript, Research Proposal", score: "N/A", status: "Pending" }, 5: { student: "Amina Yahaya", scholarship: "Community Service", submitted: "Oct 8, 2025", gpa: "3.65", essay: "Volunteered at orphanage for 3 years.", docs: "Transcript, Recommendation Letter", score: "78", status: "Under Review" }, 6: { student: "Sadiq Mohammed", scholarship: "Merit Excellence", submitted: "Oct 5, 2025", gpa: "3.82", essay: "Top 5% in department for three semesters.", docs: "Transcript, Recommendation Letter, ID", score: "89", status: "Approved" }, 7: { student: "Zainab Abdullahi", scholarship: "STEM Leaders", submitted: "Oct 3, 2025", gpa: "3.79", essay: "Google Africa Scholarship recipient.", docs: "Transcript, Recommendation Letter", score: "62", status: "Rejected" }, 8: { student: "Haruna Adamu", scholarship: "Women in STEM", submitted: "Oct 1, 2025", gpa: "3.70", essay: "Founded entrepreneurship club with 150+ members.", docs: "Transcript, Recommendation Letter, ID", score: "81", status: "Under Review" }, 9: { student: "Rukayya Umar", scholarship: "Research Grant", submitted: "Sep 28, 2025", gpa: "3.84", essay: "Chemistry research on water purification.", docs: "Transcript, Research Proposal", score: "N/A", status: "Pending" }, 10: { student: "Abdullahi Idris", scholarship: "Community Service", submitted: "Sep 25, 2025", gpa: "3.58", essay: "Built solar panels for rural communities.", docs: "Transcript, Recommendation Letter", score: "85", status: "Approved" } };
+    function viewApplication(id) { const a = apps[id]; document.getElementById('appDetails').innerHTML = `<div class="detail-row"><div class="detail-label">Student:</div><div>${a.student}</div></div><div class="detail-row"><div class="detail-label">Scholarship:</div><div>${a.scholarship}</div></div><div class="detail-row"><div class="detail-label">Submission Date:</div><div>${a.submitted}</div></div><div class="detail-row"><div class="detail-label">GPA:</div><div>${a.gpa}</div></div><div class="detail-row"><div class="detail-label">Essay:</div><div>${a.essay}</div></div><div class="detail-row"><div class="detail-label">Documents:</div><div>${a.docs}</div></div><div class="detail-row"><div class="detail-label">Score:</div><div>${a.score}</div></div><div class="detail-row"><div class="detail-label">Status:</div><div>${a.status}</div></div>`; document.getElementById('appModal').classList.add('active'); }
+    function closeModal() { document.getElementById('appModal').classList.remove('active'); }
+    const s=document.getElementById('sidebar'),m=document.getElementById('mainContent'); document.getElementById('collapseBtn').addEventListener('click',()=>{ s.classList.toggle('collapsed'); m.classList.toggle('expanded'); });
+</script>
+</body>
+</html>
